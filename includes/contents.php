@@ -2,7 +2,7 @@
 include_once 'psl_config.php';
 //generate contents in relation to what is choosen
 print <<<HTML
-<script type="text/JavaScript" src="../js/functions.js"></script>
+<script src="../js/functions.js"></script>
 HTML;
 
 function getContent($mysqli){
@@ -109,17 +109,57 @@ HTML;
 print <<<HTML
 <form>
 <div class="row">
-
   <div class="form-group col-md-2 offset-md-6">
     <label for="formGroupExampleInput">Date</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input" >
+    <input type="date" class="form-control" id="formGroupExampleInput" placeholder="">
+    <label for="formGroupExampleInput">Invoice #</label>
+    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="">
   </div>
   <div class="form-group col-md-3"">
-  <label for="formGroupExampleInput">Bill To</label>
-    <textarea class="form-control" style="resize: none;" ></textarea>
+    <label for="formGroupExampleInput">Bill To</label>
+    <textarea class="form-control" style="resize: none;" rows="6" ></textarea>
   </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <button  type="button" class="btn btn-primary" onclick="addNewRow('tableItems')">Add New Item</button>
+    </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-bordered table-hover table-sm" id="tableItems">
+        <thead class="thead">
+            <tr>
+                <th class="text-center">Quantity</th>
+                <th>Description</th>
+                <th class="text-center">Action</th>
+            </tr>    
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width: 10%"><input type="number" class="form-control text-center"></td>
+                <td style="width: 70%"><textarea class="form-control"  onkeyup="textAreaAdjust(this)" style="overflow:hidden;resize: none;" rows="1"></textarea></td>
+                <td style="width: 20%" class="text-center">
+                    <button type="button" class="btn btn-info">
+                            <span class="fa fa-pencil"></span>
+                   </button>
+                    <button type="button" class="btn btn-danger" onclick="deleteRow()">
+                            <span class="fa fa-remove"></span>
+                   </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
   </div>
+</div>
 </form>
+<script>
+  function textAreaAdjust(o) {
+  o.style.height = "1px";
+  o.style.height = (5+o.scrollHeight)+"px";
+}  
+</script>
 HTML;
             break;
 	

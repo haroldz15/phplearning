@@ -10,8 +10,8 @@ include_once 'includes/functions.php';
 	<title>Registration Form</title>
     <script type="text/JavaScript" src="js/sha512.js"></script> 
     <script type="text/JavaScript" src="js/forms.js"></script>	
-    <link href="/safeLogin/dist/bootstrap/css/bootstrap.css" rel="stylesheet"> 
-    <link href="/safeLogin/dist/css/auth.css" rel="stylesheet"> 
+    <link href="dist/bootstrap/css/bootstrap.css" rel="stylesheet"> 
+    <link href="dist/css/auth.css" rel="stylesheet"> 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>

@@ -23,3 +23,18 @@ function ajaxCall(...args) {
 function getSessionParameters(...args) {
 console.log(args);
 }
+
+function addNewRow(id){
+    $("#"+id+"").find('tbody').append( "<tr>\
+        <td style='width: 10%'><input type='number' class='form-control text-center'></td>\
+        <td style='width: 70%'><textarea class='form-control'  onkeyup='textAreaAdjust(this)'' style='overflow:hidden;resize: none;' rows='1'></textarea></td>\
+        <td style='width: 20%' class='text-center'>\
+            <button type='button' class='btn btn-info'>\
+                    <span class='fa fa-pencil'></span>\
+            </button>\
+            <button type='button' class='btn btn-danger'>\
+                    <span class='fa fa-remove'></span>\
+            </button>\
+        </td>\
+        </tr>");
+}
