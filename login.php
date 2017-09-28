@@ -30,7 +30,7 @@ if(loginCheck($mysqli)==true){
 ?>
      <div class="container">
        <div class="authBox login">
-          <form class="form-signin"  action="includes/process_login.php" method="POST" name="login_form_a" autocomplete="false" onsubmit="formhash(this, this.password)" >
+          <form class="form-signin"  action="includes/loginclass.php" method="POST" name="login_form_a" autocomplete="false" onsubmit="formhash(this, this.password)" >
             <h2 class="form-signin-heading">Please sign in</h2>
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required  autocomplete="false" >
