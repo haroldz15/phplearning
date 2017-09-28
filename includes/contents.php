@@ -109,7 +109,17 @@ HTML;
 print <<<HTML
 <form>
 <div class="row">
-  <div class="form-group col-md-2 offset-md-6">
+  <div class="form-group col-md-6">
+  <h4>From,</h4>
+  <h3>Wong Painting & Remodeling</h3>
+<address>
+8635 Centerton Lane<br>
+Manassas VA 20111<br>
+USA<br>
+<a href="mailto:wongpainting@gmail.com">wongpainting@gmail.com</a><br> 
+</address>
+  </div>
+  <div class="form-group col-md-2 ">
     <label for="formGroupExampleInput">Date</label>
     <input type="date" class="form-control" id="formGroupExampleInput" placeholder="">
     <label for="formGroupExampleInput">Invoice #</label>
@@ -144,7 +154,7 @@ print <<<HTML
                     <button type="button" class="btn btn-info">
                             <span class="fa fa-pencil"></span>
                    </button>
-                    <button type="button" class="btn btn-danger" onclick="deleteRow()">
+                    <button type="button" class="btn btn-danger" onclick="deleteRow(this)">
                             <span class="fa fa-remove"></span>
                    </button>
                 </td>
@@ -153,13 +163,14 @@ print <<<HTML
     </table>
   </div>
 </div>
+
+<button type="button" class="btn btn-danger pull-left">Cancel</button>
+<button type="button" class="btn btn-info pull-right mr-5">
+    <span class="fa fa-print"></span>
+    PDF
+</button>
+<button type="button" class="btn btn-success pull-right mr-3">Save</button>
 </form>
-<script>
-  function textAreaAdjust(o) {
-  o.style.height = "1px";
-  o.style.height = (5+o.scrollHeight)+"px";
-}  
-</script>
 HTML;
             break;
 	
