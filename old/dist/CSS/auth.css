@@ -1,0 +1,49 @@
+
+	
+	body{
+	background-image: url("../img/background.jpg");
+	-moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background-position: top center !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed;		
+	}
+	.authBox{
+	/*max-width: 500px;*/
+	padding: 20px;
+	margin:0 auto;
+	/*margin-top: 200px;*/
+	background-color: #FFFFFF;
+    box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.42);
+       border-radius: 10px;
+
+	}
+    .authBox.login{
+    max-width: 500px;
+    margin-top: 200px;
+    }
+    .authBox.reg{
+    max-width: 900px;
+    margin-top: 100px; 
+    margin-bottom: 50px;    
+    }
+
+	.form-signin input[type="email"] {
+    margin-bottom: 5px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin input[readonly] {
+     cursor: text;
+     background-color: #fff !important;
+}
