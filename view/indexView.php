@@ -17,7 +17,7 @@
         </style>
     </head>
     <body>
-        <form action="<?php echo $helper->url('usuarios','crear'); ?>" method="post" class="col-lg-5">
+        <form action="<?php echo $helper->url('users','create'); ?>" method="post" class="col-lg-5">
             <h3>Añadir usuario</h3>
             <hr/>
             Nombre: <input type="text" name="nombre" class="form-control"/>
@@ -32,10 +32,11 @@
             <hr/>
         </div>
         <section class="col-lg-7 usuario" style="height:400px;overflow-y:scroll;">
-            <?php foreach($allusers as $user) { //recorremos el array de objetos y obtenemos el valor de las propiedades ?>
+           
+            <?php  echo $Hola;foreach($allusers as $user) { //recorremos el array de objetos y obtenemos el valor de las propiedades ?>
                 <?php echo $user->id; ?> -
-                <?php echo $user->nombre; ?> -
-                <?php echo $user->apellido; ?> -
+                <?php echo $user->name; ?> -
+                <?php echo $user->lastname; ?> -
                 <?php echo $user->email; ?>
                 <div class="right">
                     <a href="<?php echo $helper->url("usuarios","borrar"); ?>&id=<?php echo $user->id; ?>" class="btn btn-danger">Borrar</a>

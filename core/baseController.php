@@ -1,7 +1,8 @@
 <?php
-class ControladorBase{
+class baseController{
  
     public function __construct() {
+        require_once 'connect.php';
         require_once 'baseIdentity.php';
         require_once 'baseModel.php';
          
@@ -14,21 +15,19 @@ class ControladorBase{
      
     //Plugins and utilities
      
-/*
-* Este método lo que hace es recibir los datos del controlador en forma de array
-* los recorre y crea una variable dinámica con el indice asociativo y le da el 
-* valor que contiene dicha posición del array, luego carga los helpers para las
-* vistas y carga la vista que le llega como parámetro. En resumen un método para
-* renderizar vistas.
-*/
     public function view($view,$data){
-        foreach ($data as $id_asso => $value) {
-            // $id_asso takes the current element which is an id i.e. 1
-            //$1 takes the value $1=1
-            ${$id_asso}=$value; 
+        //var_dump(json_encode($data));
+        if($data){
+            foreach ($data as $id_asso => $value) {
+                //echo "<br>".$id_asso."<br>";
+                //var_dump($value);
+                // $id_asso takes the current element which is an id i.e. 1
+                //$1 takes the value $1=1
+                ${$id_asso}=$value; 
+                //echo "<br>".var_dump($id_asso)."<br>";
+            }
         }
-         
-        require_once 'core/viewHelp.php';
+        require_once 'core/viewHelper.php';
         $helper=new viewHelper();
      
         require_once 'view/'.$view.'View.php';

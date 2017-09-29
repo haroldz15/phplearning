@@ -1,14 +1,14 @@
 <?php
-class Usuario extends baseIdentity{
+class user extends baseIdentity{
     private $id;
     private $name;
     private $lastname;
     private $email;
     private $password;
      
-    public function __construct() {
+    public function __construct($adapter) {
         $table="users";
-        parent::__construct($table);
+        parent::__construct($table,$adapter);
     }
      
     public function getId() {

@@ -3,16 +3,10 @@ class baseModel extends baseIdentity{
     private $table;
     private $fluent;
      
-    public function __construct($table) {
+    public function __construct($table,$adapter) {
         $this->table=(string) $table;
         //Call the construct method of parent baseIdentity wich is being recalled in this contruction but by saying parent you call it anyway in order to use the getConnect
-        parent::__construct($table);
-         
-        $this->fluent=$this->getConnect()->startFluent();
-    }
-     
-    public function fluent(){
-        return $this->fluent;
+        parent::__construct($table,$adapter);
     }
      
     public function executeSql($query){
@@ -28,7 +22,7 @@ class baseModel extends baseIdentity{
                     $resultSet=$row;
                 }
             }else{
-                $resultSet=true;
+                $resultSet="not found";
             }
         }else{
             $resultSet=false;

@@ -4,11 +4,14 @@ class baseIdentity{
     private $db;
     private $connect;
  
-    public function __construct($table) {
+    public function __construct($table,$adapter) {
         $this->table=(string) $table;
+        /*
         require_once 'connect.php';
         $this->connect=new connect();
-        $this->db=$this->conectar->connection();
+        $this->db=$this->connect->connection();*/
+        $this->connect=null;
+        $this->db=$adapter;
     }
      
     public function getConnect(){

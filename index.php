@@ -6,14 +6,14 @@ require_once 'config/global.php';
 require_once 'core/baseController.php';
  
 //functions for the frontal controller
-require_once 'core/frontalController.func.php';
+require_once 'core/frontEndController.func.php';
  
 //load controllers and actions
 if(isset($_GET["controller"])){
     $controllerObj=loadController($_GET["controller"]);
-    launchController($controllerObj);
+    launchAction($controllerObj);
 }else{
     $controllerObj=loadController(defaultController);
-    launchController($controllerObj);
+    launchAction($controllerObj);
 }
 ?>

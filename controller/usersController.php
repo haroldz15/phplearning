@@ -3,15 +3,20 @@ class usersController extends baseController{
      
     public function __construct() {
         parent::__construct();
+        $this->connect=new connect();
+        $this->adapter=$this->connect->connection();
     }
      
+
+     //this action is called so it creates a user that is being refered in the base controller wich load all the models
     public function index(){
          
-        //Creamos el objeto usuario
-        $user=new user();
+        //creates a user object
+        $user=new user($this->adapter);
          
+         // get the array of users with the method get all 
         //Conseguimos todos los usuarios
-        $allusers=$users->getAll();
+        $allusers=$user->getAll();
         
         //Cargamos la vista index y le pasamos valores
         $this->view("index",array(
@@ -20,13 +25,27 @@ class usersController extends baseController{
         ));
     }
      
+
+    public function login(){
+         
+        //creates a user object
+        // $user=new user($this->adapter);
+         
+         // get the array of users with the method get all 
+        //Conseguimos todos los usuarios
+        //$allusers=$user->getAll();
+        
+        //Cargamos la vista index y le pasamos valores
+        $this->view("login",'');
+    }
+     
     public function create(){
         if(isset($_POST["name"])){
              
             //Creamos un usuario
-            $user=new Usuario();
-            $user->setNombre($_POST["name"]);
-            $user->setApellido($_POST["lastname"]);
+            $user=new user($this->adapter);
+            $user->setName($_POST["name"]);
+            $user->setLastname($_POST["lastname"]);
             $user->setEmail($_POST["email"]);
             $user->setPassword(sha1($_POST["password"]));
             $save=$user->save();
@@ -34,11 +53,11 @@ class usersController extends baseController{
         $this->redirect("users", "index");
     }
      
-    public function borrar(){
+    public function delete(){
         if(isset($_GET["id"])){ 
             $id=(int)$_GET["id"];
              
-            $user=new user();
+            $user=new user($this->adapter);
             $user->deleteById($id); 
         }
         $this->redirect();
@@ -46,7 +65,7 @@ class usersController extends baseController{
      
      
     public function hello(){
-        $users=new usersModel();
+        $users=new usersModel($this->adapter);
         $usu=$users->getAUser();
         var_dump($usu);
     }

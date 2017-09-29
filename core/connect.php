@@ -1,10 +1,11 @@
 <?php 
-class Connect(){
+class connect {
+
 	private $driver,$host, $user, $pass, $database, $charset;
 
 	public function __construct(){
-		$db_config=required_once('config/database');
-		$this->driver = $db_config['$driver'];
+		$db_config=require_once 'config/database.php';
+		$this->driver = $db_config['driver'];
 		$this->host = $db_config['host'];
 		$this->user = $db_config['user'];  
 		$this->pass = $db_config['pass']; 
@@ -14,23 +15,13 @@ class Connect(){
 
 	public function connection(){
 		if($this->driver=="mysql" || $this->driver ==null){
-			$con= new mysql($this->host,$this->user, $this->pass, $this->database);
+			$con= new mysqli($this->host,$this->user, $this->pass, $this->database);
 			$con->set_charset($this->charset);
 		}
 
  		return $con;
     }
      
-    public function startFluent(){
-        require_once "FluentPDO/FluentPDO.php";
-        if($this->driver=="mysql" || $this->driver==null){
-            $pdo = new PDO($this->driver.":dbname=".$this->database, $this->user, $this->pass);
-            $fpdo = new FluentPDO($pdo);
-        }
-         
-        return $fpdo;
-    }
-
 }
 
  ?>
