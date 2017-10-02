@@ -21,13 +21,15 @@ function launchAction($controllerObj,$action){
     if(method_exists($controllerObj,$action)){
         loadAction($controllerObj, $action);
     }else{
-        header('LOCATION:error.php?error=1');                    
+        //header('LOCATION:error.php?error=launchAction');  
+        echo "Error no  load action";                  
     }
 }
 
 //Executes Third 
 function loadAction($controllerObj,$actionParam){
     //when the action is loaded means that the action will trigger a function with the sane name in the controller.php file
+    //echo $actionParam;
     $action=$actionParam;
     $controllerObj->$action();
 }

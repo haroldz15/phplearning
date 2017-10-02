@@ -8,30 +8,24 @@ require_once 'core/baseController.php';
 //functions for the frontal controller
 require_once 'core/frontEndController.func.php';
 
+//Declaring variables
 
-if ($_SERVER['REQUEST_METHOD']=="POST"){
+$actionURL="";
+$controllerURL="";
 
-	if(isset($_POST['controller']))
-	{
-		$controllerURL=$_POST['controller'];
-	}else{
-		$controllerURL=defaultController;
-	}
-
-	if(isset($_POST['action'])){
-		$actionURL=$_POST['action'];
-	}
-
-}elseif($_SERVER['REQUEST_METHOD']=="GET")
+if ($_SERVER['REQUEST_METHOD']=="POST")
 {
-$requestUri = $_SERVER['REQUEST_URI'];
-echo $requestUri;
-
+	$controllerURL=(isset($_POST['controller'])?$_POST["c"]:defaultController);
+	$actionURL=(isset($_POST["a"])?$_POST["a"]:"");	
+}
+elseif($_SERVER['REQUEST_METHOD']=="GET")
+{
+	$controllerURL=(isset($_GET["c"])?$_GET["c"]:defaultController);
+	$actionURL=(isset($_GET["a"])?$_GET["a"]:"");
 }
 
-
-
-//$controllerObj=loadController($controllerURL);
-//launchAction($controllerObj,$controllerObj->defaultAction);
+$controllerObj=loadController($controllerURL);
+$actionURL=($actionURL==""?$controllerObj->defaultAction:$actionURL);
+launchAction($controllerObj,$actionURL);
 
 ?>

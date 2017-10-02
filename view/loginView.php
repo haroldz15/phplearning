@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>Log In</title>
-    <script type="text/JavaScript" src="dist/js/sha512.js"></script> 
-    <script type="text/JavaScript" src="dist/js/forms.js"></script> 
-    <link href="dist/bootstrap/css/bootstrap.css" rel="stylesheet"> 
-    <link href="dist/css/auth.css" rel="stylesheet">    
+    <script type="text/JavaScript" src="/phplearning/dist/js/sha512.js"></script> 
+    <script type="text/JavaScript" src="/phplearning/dist/js/forms.js"></script> 
+    <link href="/phplearning/dist/bootstrap/css/bootstrap.css" rel="stylesheet"> 
+    <link href="/phplearning/dist/css/auth.css" rel="stylesheet">    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>

@@ -16,6 +16,7 @@ class baseController{
     //Plugins and utilities
      
     public function view($view,$data){
+
         //var_dump(json_encode($data));
         if($data){
             foreach ($data as $id_asso => $value) {
@@ -29,13 +30,14 @@ class baseController{
         }
         //echo 'view/'.$view.'View.php';
         require_once 'core/viewHelper.php';
+
         $helper=new viewHelper();
         require_once 'view/'.$view.'View.php';
 
     }
      
     public function redirect($controller=defaultController,$action=defaultAction){
-        header("Location:index.php/".$controller."/".$action);                 
+        header("Location:".$controller."/".$action);                 
     }
      
     //Métodos para los controladores

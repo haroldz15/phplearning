@@ -30,6 +30,7 @@ class authController extends baseController{
         $method=$_SERVER['REQUEST_METHOD'];
 
         if($method=="GET"){ 
+            
             $this->view("login",array("errors"=>"")); 
         }
         if($method=="POST"){
