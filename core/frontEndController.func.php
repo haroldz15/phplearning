@@ -5,8 +5,7 @@
 function loadController($control){
     $controller=$control.'Controller';
     $strFileController='controller/'.$controller.'.php';
-
-    //Calls de controller file 
+    //Calls de controller file ;
     if(!is_file($strFileController)){
         $strFileController='controller/'.defaultController.'Controller.php';   
     }
@@ -18,12 +17,11 @@ function loadController($control){
 
 
 //Executes Second 
-function launchAction($controllerObj){
-    //one the controller has been instantiated verify de get Action which will provide the action for the controllerObj
-    if(isset($_GET["action"]) && method_exists($controllerObj, $_GET["action"])){
-        loadAction($controllerObj, $_GET["action"]);
+function launchAction($controllerObj,$action){
+    if(method_exists($controllerObj,$action)){
+        loadAction($controllerObj, $action);
     }else{
-        loadAction($controllerObj, defaultAction);
+        header('LOCATION:error.php?error=1');                    
     }
 }
 

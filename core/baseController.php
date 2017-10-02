@@ -27,14 +27,15 @@ class baseController{
                 //echo "<br>".var_dump($id_asso)."<br>";
             }
         }
+        //echo 'view/'.$view.'View.php';
         require_once 'core/viewHelper.php';
         $helper=new viewHelper();
-     
         require_once 'view/'.$view.'View.php';
+
     }
      
     public function redirect($controller=defaultController,$action=defaultAction){
-        header("Location:index.php?controller=".$controller."&action=".$action);
+        header("Location:index.php/".$controller."/".$action);                 
     }
      
     //Métodos para los controladores

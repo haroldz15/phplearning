@@ -46,3 +46,14 @@
      cursor: text;
      background-color: #fff !important;
 }
+
+.inside {
+position:absolute;
+text-indent:5px;
+margin-top:2px;
+color:green;
+}
+
+.inp {
+text-indent:20px;
+}s

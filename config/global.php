@@ -1,5 +1,5 @@
 <?php
-define("defaultController", "users");
-define("defaultAction", "login");
+define("defaultController", "auth");
+define("defaultAction", "index");
 //Más constantes de configuración
 ?>

@@ -1,18 +1,17 @@
 <?php
-class usersController extends baseController{
+class authController extends baseController{
      
     public function __construct() {
         parent::__construct();
         $this->connect=new connect();
         $this->adapter=$this->connect->connection();
-        $this->defaultAction="index";
+        $this->defaultAction="login";
     }
      
 
      //this action is called so it creates a user that is being refered in the base controller wich load all the models
     public function index(){
-         
-        //creates a user object
+                 //creates a user object
         $user=new user($this->adapter);
          
          // get the array of users with the method get all 
@@ -28,19 +27,25 @@ class usersController extends baseController{
      
 
     public function login(){
-         
-        //creates a user object
-        // $user=new user($this->adapter);
-         
-         // get the array of users with the method get all 
-        //Conseguimos todos los usuarios
-        //$allusers=$user->getAll();
-        
-        //Cargamos la vista index y le pasamos valores
-        $this->view("login",'');
+        $method=$_SERVER['REQUEST_METHOD'];
+
+        if($method=="GET"){ 
+            $this->view("login",array("errors"=>"")); 
+        }
+        if($method=="POST"){
+            $email=filter_input(INPUT_POST, 'email',FILTER_SANITIZE_STRING);
+            $password = filter_input(INPUT_POST, 'p', FILTER_SANITIZE_STRING);
+            $users=new usersModel($this->adapter);
+            $usu=$users->getAUser($email,$password);
+            if($usu===true){
+                $this->redirect("users", "index");
+            }else{
+                $this->view("login",array("errors"=>$usu)); 
+            }       
+        }
     }
      
-    public function create(){
+    public function logout(){
         if(isset($_POST["name"])){
              
             //Creamos un usuario
@@ -54,7 +59,7 @@ class usersController extends baseController{
         $this->redirect("users", "index");
     }
      
-    public function delete(){
+    public function checkState(){
         if(isset($_GET["id"])){ 
             $id=(int)$_GET["id"];
              
@@ -63,13 +68,6 @@ class usersController extends baseController{
         }
         $this->redirect();
     }
-     
-     
-    public function hello(){
-        $users=new usersModel($this->adapter);
-        $usu=$users->getAUser();
-        var_dump($usu);
-    }
- 
+         
 }
 ?>

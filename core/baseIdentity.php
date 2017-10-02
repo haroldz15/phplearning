@@ -6,10 +6,6 @@ class baseIdentity{
  
     public function __construct($table,$adapter) {
         $this->table=(string) $table;
-        /*
-        require_once 'connect.php';
-        $this->connect=new connect();
-        $this->db=$this->connect->connection();*/
         $this->connect=null;
         $this->db=$adapter;
     }
@@ -43,16 +39,23 @@ class baseIdentity{
         return $resultSet;
     }
      
+
     public function getBy($column,$value){
-        $query=$this->db->query("SELECT * FROM $this->table WHERE $column='$value'");
- 
-        while($row = $query->fetch_object()) {
-           $resultSet[]=$row;
+        if( $stmt=$this->db()->prepare("SELECT * from $this->table where $column=? Limit 1")){
+            $stmt->bind_param('s',$value);
+            $stmt->execute();
+            $stmt=$stmt->get_result();
+            if($stmt->num_rows==1){
+                $row = $stmt->fetch_assoc();
+                return $row;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
         }
-         
-        return $resultSet;
     }
-     
+  
     public function deleteById($id){
         $query=$this->db->query("DELETE FROM $this->table WHERE id=$id"); 
         return $query;
