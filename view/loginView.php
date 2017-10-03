@@ -11,6 +11,7 @@
 </head>
 
 <body>
+  <?php echo $_SESSION['id'];?>
      <div class="container">
        <div class="authBox login">
           <form class="form-signin"  action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" name="login_form_a" autocomplete="off" onsubmit="formhash(this, this.password)" >

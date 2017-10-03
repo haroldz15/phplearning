@@ -37,7 +37,7 @@ class baseController{
     }
      
     public function redirect($controller=defaultController,$action=defaultAction){
-        header("Location:".$controller."/".$action);                 
+        header("Location:http://".$_SERVER['HTTP_HOST'].'/phpLearning/'.$controller."/".$action);                 
     }
      
     //Métodos para los controladores

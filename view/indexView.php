@@ -18,7 +18,7 @@
         </style>
     </head>
     <body>
-        <form action="<?php echo $helper->url('users','create'); ?>" method="post" class="col-lg-5">
+        <form action="" method="post" class="col-lg-5">
             <h3>Añadir usuario</h3>
             <hr/>
             Nombre: <input type="text" name="nombre" class="form-control"/>
