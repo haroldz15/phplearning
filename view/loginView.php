@@ -1,38 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Log In</title>
-    <script type="text/JavaScript" src="/phplearning/dist/js/sha512.js"></script> 
-    <script type="text/JavaScript" src="/phplearning/dist/js/forms.js"></script> 
-    <link href="/phplearning/dist/bootstrap/css/bootstrap.css" rel="stylesheet"> 
-    <link href="/phplearning/dist/css/auth.css" rel="stylesheet">    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+<?php 
+require_once 'dist/includes/headerlite.php';
+?>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <a href="../../index2.html"><b>Admin</b>LTE</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Sign in to start your session</p>
 
-<body>
-  <?php echo $_SESSION['id'];?>
-     <div class="container">
-       <div class="authBox login">
-          <form class="form-signin"  action="<?php echo $_SERVER['PHP_SELF']?>" method="POST" name="login_form_a" autocomplete="off" onsubmit="formhash(this, this.password)" >
-            <h2 class="form-signin-heading">Please sign in</h2><hr>
-            <i class="inside fa fa-user"></i>
-              <input type="email" id="email" name="email" class="inp form-control" placeholder="Email address" required  autocomplete="off" >
-            <i class="inside fa fa-lock"></i>
-              <input type="password" id="password" name="dist/password" class="inp form-control" placeholder="Password" required autocomplete="off" readonly onfocus="this.removeAttribute('readonly');"><br>
-            <?php 
-            if(!empty($errors)){
+    <form action="<?php echo $_SERVER['PHP_SELF']?>" name="login_form_a"   method="post" onsubmit="formhash(this, this.password)">
+      <div class="form-group has-feedback">
+        <input type="email" name="email" id="email" class="form-control" placeholder="Email">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+<?php 
+if(!empty($errors)){
 echo <<<HTML
 <div class="alert alert-danger" role="alert">
 <strong>Error!</strong> $errors
 </div>
 HTML;
 }
-?>                    
-            <?php echo $helper->url('auth','login'); ?>
-            <button type="submit"   class="btn btn-lg btn-primary btn-block" />Sign In</button>
-          </form>
+?>  
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+              <input type="checkbox"> Remember Me
+            </label>
+          </div>
         </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+        </div>
+        <!-- /.col -->
       </div>
-</body>
-</html>
+    </form>
+    <a href="#">I forgot my password</a><br>
+    <a href="register.html" class="text-center">Register a new membership</a>
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+<?php 
+require_once 'dist/includes/footerlite.php';
+ ?>

@@ -20,15 +20,10 @@ class baseController{
         //var_dump(json_encode($data));
         if($data){
             foreach ($data as $id_asso => $value) {
-                //echo "<br>".$id_asso."<br>";
-                //var_dump($value);
-                // $id_asso takes the current element which is an id i.e. 1
-                //$1 takes the value $1=1
                 ${$id_asso}=$value; 
-                //echo "<br>".var_dump($id_asso)."<br>";
             }
         }
-        //echo 'view/'.$view.'View.php';
+
         require_once 'core/viewHelper.php';
 
         $helper=new viewHelper();
@@ -40,7 +35,6 @@ class baseController{
         header("Location:http://".$_SERVER['HTTP_HOST'].'/phpLearning/'.$controller."/".$action);                 
     }
      
-    //Métodos para los controladores
  
 }
 ?>
