@@ -29,16 +29,23 @@ class baseIdentity{
         return $resultSet;
     }
      
+
+
     public function getById($id){
-        $query=$this->db->query("SELECT * FROM $this->table WHERE id=$id");
- 
-        if($row = $query->fetch_object()) {
-           $resultSet=$row;
+        if( $stmt=$this->db()->prepare("SELECT * FROM $this->table WHERE id=?")){
+            $stmt->bind_param('i',$id);
+            $stmt->execute();
+            $stmt=$stmt->get_result();
+            if($stmt->num_rows==1){
+                $row = $stmt->fetch_assoc();
+                return $row;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
         }
-         
-        return $resultSet;
-    }
-     
+    }     
 
     public function getBy($column,$value){
         if( $stmt=$this->db()->prepare("SELECT * from $this->table where $column=? Limit 1")){

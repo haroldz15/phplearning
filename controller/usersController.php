@@ -6,6 +6,10 @@ class usersController extends baseController{
         $this->connect=new connect();
         $this->adapter=$this->connect->connection();
         $this->defaultAction="index";
+
+        $loginCheck=new usersModel($this->adapter);
+        $loginCheck=$loginCheck->loginCheck();
+        if(!$loginCheck){parent::redirect('auth','login');}
     }
      
 
@@ -13,13 +17,15 @@ class usersController extends baseController{
     public function index(){
          
         //creates a user object
-        $user=new user($this->adapter);
+        $userVar=new user($this->adapter);
          
          // get the array of users with the method get all 
         //Conseguimos todos los usuarios
-        $allusers=$user->getAll();
+        $allusers=$userVar->getAll();
         
-        //Cargamos la vista index y le pasamos valores
+        $users=new usersModel($this->adapter);
+        $loginCheck=$users->loginCheck();
+        
         $this->view("index",array(
             "allusers"=>$allusers,
             "Hola"    =>"Soy Víctor Robles"

@@ -9,7 +9,7 @@ require_once 'core/baseController.php';
 require_once 'core/frontEndController.func.php';
 
 //Declaring variables
-
+sec_session_start();
 $actionURL="";
 $controllerURL="";
 
