@@ -20,9 +20,6 @@ function ajaxCall(...args) {
     }
 }
 
-function getSessionParameters(...args) {
-console.log(args);
-}
 
 function addNewRow(id){
     $("#"+id+"").find('tbody').append( "<tr>\
@@ -46,4 +43,15 @@ function deleteRow(row){
   function textAreaAdjust(o) {
   o.style.height = "1px";
   o.style.height = (5+o.scrollHeight)+"px";
+}
+
+function calculatePayment(){
+    var subtotal=parseFloat($('#subtotalPayment').val())
+    var taxInput=parseFloat($('#taxInput').val())/100
+
+    var tax=subtotal*taxInput
+    var totalPayment=(subtotal+tax)
+
+    $('#totalPayment').html(totalPayment)
+    $('#tax').html(tax)
 }  

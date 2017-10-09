@@ -19,14 +19,18 @@ class baseIdentity{
     }
      
     public function getAll(){
-        $query=$this->db->query("SELECT * FROM $this->table ORDER BY id DESC");
-          
-        //Return the array
-        while ($row = $query->fetch_object()) {
-           $resultSet[]=$row;
+        if( $stmt=$this->db()->prepare("SELECT * FROM $this->table")){
+            $stmt->execute();
+            $stmt=$stmt->get_result();
+            if($stmt->num_rows==1){
+                $row = $stmt->fetch_assoc();
+                return $row;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
         }
-         
-        return $resultSet;
     }
      
 

@@ -8,7 +8,7 @@ class usersModel extends baseModel{
     }
      
     //Metodos de consulta
-    public function getAUser($email,$password){
+    public function loginUser($email,$password){
         //$query="SELECT * FROM users WHERE email='haroldzuniga15@gmail.com'";
         $user=$this->getBy('email',$email);
         if(isset($user['email'])){
@@ -38,30 +38,37 @@ class usersModel extends baseModel{
 
 
 //Check Login
-public function loginCheck(){
-    if(isset($_SESSION['id'],$_SESSION['username'],$_SESSION['login_string'])){
-        $id=$_SESSION['id'];
-        $username=$_SESSION['username'];
-        $login_string=$_SESSION['login_string'];
-        $user_browser=$_SERVER['HTTP_USER_AGENT'];
-        $user=$this->getById($id);
+    public function loginCheck(){
+        if(isset($_SESSION['id'],$_SESSION['username'],$_SESSION['login_string'])){
+            $id=$_SESSION['id'];
+            $username=$_SESSION['username'];
+            $login_string=$_SESSION['login_string'];
+            $user_browser=$_SERVER['HTTP_USER_AGENT'];
+            $user=$this->getById($id);
 
-        if(isset($user['email'])){
-            $login_check=hash('sha512',$user['password'].$user_browser);
-                if(hash_equals($login_check,$login_string)){
-                    return true;
-                }else{
-                    //no coincide
-                    return false;
-                }
+            if(isset($user['email'])){
+                $login_check=hash('sha512',$user['password'].$user_browser);
+                    if(hash_equals($login_check,$login_string)){
+                        return true;
+                    }else{
+                        //no coincide
+                        return false;
+                    }
+            }else{
+              //incorrect email
+              return false;  
+            } 
         }else{
-          //incorrect email
-          return false;  
-        } 
-    }else{
-        //no hay datos de sesion
-        return false;
+            //no hay datos de sesion
+            return false;
+        }
     }
-}
+
+    public function getOptions(){
+    /*$flags=$_SESSION['flags'];
+    $options=new optionsModel($this->adapter);
+    $userOptions=$options->getOptions($flags);
+    return $userOptions;*/
+    }
 }
 ?>
