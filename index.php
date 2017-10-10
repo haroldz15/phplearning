@@ -15,7 +15,8 @@ $controllerURL="";
 
 if ($_SERVER['REQUEST_METHOD']=="POST")
 {
-	$controllerURL=(isset($_POST['controller'])?$_POST["c"]:defaultController);
+
+	$controllerURL=(isset($_POST['c'])?$_POST["c"]:defaultController);
 	$actionURL=(isset($_POST["a"])?$_POST["a"]:"");	
 }
 elseif($_SERVER['REQUEST_METHOD']=="GET")

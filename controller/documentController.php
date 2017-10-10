@@ -36,7 +36,7 @@ class documentController extends baseController{
         ));
     }
 
-    public function newInvoice(){
+    public function newInvoice(){      
         $company=new company($this->adapter);
         $company=$company->getAll();
         $this->view("index",array(
@@ -44,6 +44,19 @@ class documentController extends baseController{
             "allOptions"=>$this->allOptions,
             "company"=>$company
         ));
+    }
+
+    public function saveInvoice(){
+        var_dump(json_decode(stripslashes($_POST['tableItems'])));
+        echo  json_last_error() ;
+        //print_r($_POST['tableItems']);
+        $company=new company($this->adapter);
+        $company=$company->getAll();
+        $this->view("index",array(
+            "viewDashboard"=>'invoice',
+            "allOptions"=>$this->allOptions,
+            "company"=>$company
+        ));        
     }
      
        
