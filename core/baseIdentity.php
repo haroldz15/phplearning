@@ -18,18 +18,24 @@ class baseIdentity{
         return $this->db;
     }
      
+
     public function getAll(){
         if( $stmt=$this->db()->prepare("SELECT * FROM $this->table")){
             $stmt->execute();
             $stmt=$stmt->get_result();
-            if($stmt->num_rows==1){
-                $row = $stmt->fetch_assoc();
-                return $row;
-            }else{
-                return false;
+            $data=array();
+            while($row = $stmt->fetch_assoc()){
+                $data[]=$row;
             }
+            $stmt->close();
         }else{
             return false;
+        }
+
+        if(empty($data)){
+            return false;
+        }else{
+            return $data;
         }
     }
      

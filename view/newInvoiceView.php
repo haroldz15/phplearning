@@ -1,37 +1,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        New Invoice
+        <?php echo  $title ?>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">New Invoice</li>
       </ol>
     </section>
-<script type="text/javascript">
-
-  function cargaTabla(form){
-    var TableData = new Array();
-    
-  $('#tableItems tr').each(function(row, tr){
-    //console.log(JSON.stringify(tr));
-      TableData[row]={
-            "qty" : $(tr).find('td:eq(0) input[type="number"]').val() ,
-           "productDescription" :$(tr).find('td:eq(1) textarea').val()
-      }
-  }); 
-  TableData.shift();  // first row is the table header - so remove
-  TableData = JSON.stringify(TableData);
-
-  var p = document.createElement("input");
-  form.appendChild(p);
-  p.name = "tableItems";
-  p.type = "hidden";
-  p.value = TableData;
-  return false;
-  }
-
-</script>
     <!-- Main content -->
     <section class="invoice">
       <form action="<?php echo $_SERVER['PHP_SELF']?>" onsubmit="cargaTabla(this)" method="POST">
@@ -59,15 +35,14 @@
           </address>
         </div>
         <!-- /.col -->
-        <div class="col-sm-4 invoice-col">
-          
+        <div class="col-sm-4 invoice-col">          
           <div class="col-sm-9">To<input type="text" class="form-control" style=" resize: none;" name='customerTo'=> Address:<textarea class="form-control" rows="3" style=" resize: none;" name="customerAddress"></textarea></div>
         </div>
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
           <b>Invoice #007612</b><br>
           <br>
-          <b>Payment Due:</b><input class="form-control" type="date"  id="example-date-input" style="width: unset" name="customerPaymetDate"><br>
+          <b>Payment Due:</b><input class="form-control" type="date"  style="width: unset" name="customerPaymetDate"><br>
         </div>
         <!-- /.col -->
       </div>
@@ -128,7 +103,7 @@
                 <td><input type="number" id="subtotalPayment" class="form-control" style="width: unset" onkeyup="calculatePayment()" name="invoiceSubtotal"></td>
               </tr>
               <tr>
-                <th>Tax &nbsp&nbsp<input type="number" name="" id="taxInput" class="form-control" style="width: 80px;display: inline" onkeyup="calculatePayment()" name="invoiceTax"></th>
+                <th>Tax &nbsp&nbsp<input type="number" name="invoiceTax"  id="taxInput" class="form-control" style="width: 80px;display: inline" onkeyup="calculatePayment()"></th>
                 <td style="vertical-align: middle !important" id="tax"></td>
               </tr>
               <tr>

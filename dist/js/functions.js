@@ -26,9 +26,6 @@ function addNewRow(id){
         <td style='width: 10%'><input type='number' class='form-control text-center'></td>\
         <td style='width: 70%'><textarea class='form-control'  onkeyup='textAreaAdjust(this)' style='overflow:hidden;resize: none;' rows='1'></textarea></td>\
         <td style='width: 20%' class='text-center'>\
-            <button type='button' class='btn btn-info'>\
-                    <span class='fa fa-pencil'></span>\
-            </button>\
             <button type='button' class='btn btn-danger' onclick='deleteRow(this)'>\
                     <span class='fa fa-remove'></span>\
             </button>\
@@ -54,4 +51,25 @@ function calculatePayment(){
 
     $('#totalPayment').html(totalPayment)
     $('#tax').html(tax)
-}  
+} 
+
+  function cargaTabla(form){
+    var TableData = new Array();
+    
+  $('#tableItems tr').each(function(row, tr){
+    //console.log(JSON.stringify(tr));
+      TableData[row]={
+            "qty" : $(tr).find('td:eq(0) input[type="number"]').val() ,
+           "productDescription" :$(tr).find('td:eq(1) textarea').val()
+      }
+  }); 
+  TableData.shift();  // first row is the table header - so remove
+  TableData = JSON.stringify(TableData);
+
+  var p = document.createElement("input");
+  form.appendChild(p);
+  p.name = "tableItems";
+  p.type = "hidden";
+  p.value = TableData;
+  return false;
+  } 

@@ -2,10 +2,10 @@
 -- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 09-10-2017 a las 03:59:49
--- Versión del servidor: 10.1.16-MariaDB
--- Versión de PHP: 5.6.24
+-- Host: 127.0.0.1
+-- Generation Time: Oct 11, 2017 at 11:01 PM
+-- Server version: 10.1.16-MariaDB
+-- PHP Version: 5.6.24
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `app_php`
+-- Database: `app_php`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `companies`
+-- Table structure for table `companies`
 --
 
 CREATE TABLE `companies` (
@@ -38,16 +38,17 @@ CREATE TABLE `companies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `companies`
+-- Dumping data for table `companies`
 --
 
 INSERT INTO `companies` (`id`, `name`, `address`, `city`, `state`, `zipcode`, `email`, `phones`) VALUES
-(1, 'Wong Painting & Remodeling ', '8635 Centerton Lane', 'Manassas', 'VA', '20111', 'wongpainting@gmail.com', '703-926-5657 / 571-275-3541');
+(1, 'Wong Painting & Remodeling ', '8635 Centerton Lane', 'Manassas', 'VA', '20111', 'wongpainting@gmail.com', '703-926-5657 / 571-275-3541'),
+(2, 'Fairfax Perfect Maids', '11441 Olde Kend Rd', 'Centreville', 'Va', '20120', 'fairfaxperfectmaids@gmail.com', '571-275-3541');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `document_body`
+-- Table structure for table `document_body`
 --
 
 CREATE TABLE `document_body` (
@@ -55,35 +56,42 @@ CREATE TABLE `document_body` (
   `quantity` int(5) NOT NULL,
   `product` varchar(150) NOT NULL,
   `description` text NOT NULL,
-  `price` int(11) NOT NULL,
-  `date` int(11) NOT NULL,
-  `observations` text NOT NULL,
-  `subtotal` decimal(19,4) NOT NULL,
-  `tax` decimal(19,4) NOT NULL,
-  `total` decimal(19,4) NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `invoice_header`
+-- Table structure for table `invoice_header`
 --
 
 CREATE TABLE `invoice_header` (
   `id` int(11) NOT NULL,
   `company` int(2) NOT NULL,
-  `client_to` int(11) NOT NULL,
+  `client_to` varchar(100) NOT NULL,
   `client_address` text NOT NULL,
   `date_due` date NOT NULL,
-  `date` int(11) NOT NULL,
-  `status` int(11) NOT NULL
+  `observations` text NOT NULL,
+  `subtotal` decimal(19,4) NOT NULL,
+  `tax` decimal(19,4) NOT NULL,
+  `taxAmount` decimal(19,4) NOT NULL,
+  `total` decimal(19,4) NOT NULL,
+  `date` date NOT NULL,
+  `user` int(11) NOT NULL,
+  `status` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `invoice_header`
+--
+
+INSERT INTO `invoice_header` (`id`, `company`, `client_to`, `client_address`, `date_due`, `observations`, `subtotal`, `tax`, `taxAmount`, `total`, `date`, `user`, `status`) VALUES
+(1, 1, 'a', 'a', '0000-00-00', 'text  ', '10.0000', '10.0000', '1.0000', '11.0000', '0000-00-00', 1, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `login_attempts`
+-- Table structure for table `login_attempts`
 --
 
 CREATE TABLE `login_attempts` (
@@ -92,7 +100,7 @@ CREATE TABLE `login_attempts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `login_attempts`
+-- Dumping data for table `login_attempts`
 --
 
 INSERT INTO `login_attempts` (`id`, `time`) VALUES
@@ -103,7 +111,7 @@ INSERT INTO `login_attempts` (`id`, `time`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `options`
+-- Table structure for table `options`
 --
 
 CREATE TABLE `options` (
@@ -116,7 +124,7 @@ CREATE TABLE `options` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `options`
+-- Dumping data for table `options`
 --
 
 INSERT INTO `options` (`id`, `name`, `action`, `flags`, `icon`, `status`) VALUES
@@ -126,7 +134,7 @@ INSERT INTO `options` (`id`, `name`, `action`, `flags`, `icon`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -141,64 +149,101 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `lastname`, `email`, `password`, `flags`, `salt`) VALUES
 (1, 'Harold', 'Harold', 'Zuniga', 'haroldzuniga15@gmail.com', '5ebfbb0ad9c19888896f969fa1fb38125fb471ce4202062095f2dfbfd1c59bfcc60d6c8ae982d765ec4e5e6056a7dda9c00a65e287fa528f98eac6e87f18939b', 'DEBUG', 'ba9c19e1668129ab3913ee834f9bfc159bada7d64fd18ddd7b801b6ee3f7b31441a34da1e80a02be1633164268d9a8755141f52102b892f0ebd9d9a3ed9ebe01');
 
 --
--- Índices para tablas volcadas
+-- Indexes for dumped tables
 --
 
 --
--- Indices de la tabla `companies`
+-- Indexes for table `companies`
 --
 ALTER TABLE `companies`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `invoice_header`
+-- Indexes for table `document_body`
 --
-ALTER TABLE `invoice_header`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `document_body`
+  ADD KEY `id` (`id`);
 
 --
--- Indices de la tabla `options`
+-- Indexes for table `invoice_header`
+--
+ALTER TABLE `invoice_header`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `company` (`company`),
+  ADD KEY `user` (`user`);
+
+--
+-- Indexes for table `login_attempts`
+--
+ALTER TABLE `login_attempts`
+  ADD KEY `id` (`id`);
+
+--
+-- Indexes for table `options`
 --
 ALTER TABLE `options`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT de la tabla `companies`
+-- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT de la tabla `invoice_header`
+-- AUTO_INCREMENT for table `invoice_header`
 --
 ALTER TABLE `invoice_header`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT de la tabla `options`
+-- AUTO_INCREMENT for table `options`
 --
 ALTER TABLE `options`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT de la tabla `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `document_body`
+--
+ALTER TABLE `document_body`
+  ADD CONSTRAINT `document_body_ibfk_1` FOREIGN KEY (`id`) REFERENCES `invoice_header` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `invoice_header`
+--
+ALTER TABLE `invoice_header`
+  ADD CONSTRAINT `invoice_header_ibfk_1` FOREIGN KEY (`company`) REFERENCES `companies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `invoice_header_ibfk_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id`) REFERENCES `login_attempts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
