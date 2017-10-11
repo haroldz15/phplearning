@@ -5,7 +5,7 @@
     <title>Problemas</title>
 </head>
 <body>
-<h2>Problema Propuesto</h2>
+<h2>Problema 2</h2>
 <p>En un concurso se establece que la cantidad de ganadores sea igual al número de ronda en la que se está participando, para elegir a los ganadores se obtiene un número aleatorio que será igual a la suma de los números de los participantes.
 Ejemplo:
 Se tiene que en el concurso están participando los números [10, 20, 80, 2, 0, 1, -3]
