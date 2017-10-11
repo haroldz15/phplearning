@@ -204,16 +204,17 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
-<script src="/phplearning/dist/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="<?php echo baseReference  ?>dist/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="/phplearning/dist/bootstrap/js/bootstrap.min.js"></script>
+<script src="<?php echo baseReference  ?>dist/bootstrap/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
-<script src="/phplearning/dist/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="<?php echo baseReference  ?>dist/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
-<script src="/phplearning/dist/plugins/fastclick/fastclick.js"></script>
+<script src="<?php echo baseReference  ?>dist/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="/phplearning/dist/js/app.min.js"></script>
+<script src="<?php echo baseReference  ?>dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
+<script src="<?php echo baseReference  ?>dist/js/functions.js"></script>
 </body>
 </html>
   

@@ -18,6 +18,7 @@ function loadController($control){
 
 //Executes Second 
 function launchAction($controllerObj,$action){
+
     if(method_exists($controllerObj,$action)){
         loadAction($controllerObj, $action);
     }else{

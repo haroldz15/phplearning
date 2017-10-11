@@ -11,8 +11,9 @@ class baseController{
         foreach(glob("model/*.php") as $file){
             require_once $file;
         }
+        
     }
-     
+
     //Plugins and utilities
      
     public function view($view,$data){

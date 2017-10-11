@@ -1,5 +1,5 @@
 <?php
-class appController extends baseController{
+class documentController extends baseController{
      
     public function __construct() {
         
@@ -11,33 +11,32 @@ class appController extends baseController{
         $loginCheck=new usersModel($this->adapter);
         $loginCheck=$loginCheck->loginCheck();
         if(!$loginCheck){parent::redirect('auth','login');}
+
         $this->allOptions=array();
         $options=new optionsModel($this->adapter);
         $flags=$_SESSION['flags']; 
-        $this->allOptions=$options->getOptions($flags);   
+        //echo $flags;
+        $this->allOptions=$options->getOptions($flags);  
+
     }
      
 
      //this action is called so it creates a user that is being refered in the base controller wich load all the models
     public function index(){
-        $this->view("index",array(
-            "viewDashboard"=>'blank',
-            "allOptions"=>$this->allOptions
-        ));
+        echo 'index';
     }
 
     public function invoices(){
-        /*$company=new company($this->adapter);
+        $company=new company($this->adapter);
         $company=$company->getAll();
         $this->view("index",array(
             "viewDashboard"=>'invoice',
             "allOptions"=>$this->allOptions,
             "company"=>$company
-        ));*/
-        $this->redirect("document", "invoices");
+        ));
     }
-/*
-    public function newInvoice(){
+
+    public function newInvoice(){      
         $company=new company($this->adapter);
         $company=$company->getAll();
         $this->view("index",array(
@@ -45,7 +44,20 @@ class appController extends baseController{
             "allOptions"=>$this->allOptions,
             "company"=>$company
         ));
-    }*/
+    }
+
+    public function saveInvoice(){
+        var_dump(json_decode(stripslashes($_POST['tableItems'])));
+        echo  json_last_error() ;
+        //print_r($_POST['tableItems']);
+        $company=new company($this->adapter);
+        $company=$company->getAll();
+        $this->view("index",array(
+            "viewDashboard"=>'invoice',
+            "allOptions"=>$this->allOptions,
+            "company"=>$company
+        ));        
+    }
      
        
 }
