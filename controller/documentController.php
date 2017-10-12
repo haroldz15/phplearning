@@ -23,70 +23,109 @@ class documentController extends baseController{
 
      //this action is called so it creates a user that is being refered in the base controller wich load all the models
     public function index(){
-        echo 'index';
-    }
-
-    public function invoices(){
         $company=new company($this->adapter);
         $company=$company->getAll();
+        $invoices=new documentsModel($this->adapter);
+        $invoices=$invoices->getInvoices();
+        $invoices=($invoices==false ? array():$invoices);
+        //var_dump($invoice_header);
+        $this->view("index",array(
+            "viewDashboard"=>'invoices',
+            "allOptions"=>$this->allOptions,
+            "company"=>$company,
+            "title"=>"Invoices",
+            "invoices"=>$invoices
+        ));
+    }
+
+    public function create(){
+        //Get the company info for the template   
+        $companyId=$_POST['selectTemplate'];  
+        $company=new company($this->adapter);
+        $company=$company->getById($companyId);
+
+        //creating a blank invoice header
+        $invoice=new invoice_header($this->adapter);
+        $invoice->setCompany($companyId);
+        $invoice->setUser($_SESSION['id']);
+        date_default_timezone_set('America/New_York');
+        $date=date("Y-m-d");
+        $invoice->setDateInvoice($date); 
+        $invoice->save();
+        $invoice_id=$invoice->getId();
+        $invoice=$invoice->getById($invoice_id);
+        //
         $this->view("index",array(
             "viewDashboard"=>'invoice',
             "allOptions"=>$this->allOptions,
             "company"=>$company,
-            "title"=>"Invoices"
-        ));
-    }
-
-    public function newInvoice(){   
-        $companyId=$_POST['selectTemplate'];  
-        $company=new company($this->adapter);
-        $company=$company->getById($companyId);
-        $this->view("index",array(
-            "viewDashboard"=>'newInvoice',
-            "allOptions"=>$this->allOptions,
-            "company"=>$company,
+            "invoice_id"=>$invoice_id,
+            "invoice"=>$invoice,
             "title"=>"New Invoice"
         ));
     }
 
-    public function saveInvoice(){
-        $tableItems=json_decode(stripslashes($_POST['tableItems']));
+    public function edit(){
+        //get the id for the url
+        $invoice_id=(isset($_GET["i"])?$_GET["i"]:"");
+
+        //creating the invoice object
+        $invoice=new invoice_header($this->adapter);
+        $invoice=$invoice->getById($invoice_id);
+
+        //creating the company object
+        $company=new company($this->adapter);
+        $company=$company->getById($invoice["company"]);
+
+        $this->view("index",array(
+            "viewDashboard"=>'invoice',
+            "allOptions"=>$this->allOptions,
+            "company"=>$company,
+            "invoice_id"=>$invoice_id,
+            "invoice"=>$invoice,
+            "title"=>"Edit Invoice"
+        ));    
+    }
+
+    public function save(){
+        
 
         //Getting all the elements from the form to the variables
-        $companyId=filter_input(INPUT_POST, 'companyId', FILTER_SANITIZE_STRING);
-        $customerTo=filter_input(INPUT_POST, 'customerTo', FILTER_SANITIZE_STRING);
-        $customerAddress=filter_input(INPUT_POST, 'customerAddress', FILTER_SANITIZE_STRING);
-        $customerPaymetDate=filter_input(INPUT_POST, 'customerPaymetDate', FILTER_SANITIZE_STRING);
-        $invoiceObservations=filter_input(INPUT_POST, 'invoiceObservations', FILTER_SANITIZE_STRING);
-        $invoiceSubtotal=filter_input(INPUT_POST, 'invoiceSubtotal', FILTER_SANITIZE_STRING);
-        $invoiceTax=filter_input(INPUT_POST, 'invoiceTax', FILTER_SANITIZE_STRING);
-        $taxAmount=$invoiceTax/100*$invoiceSubtotal;
-        $totalAmount=$invoiceSubtotal+$taxAmount;
+        $id=filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
+        $company=filter_input(INPUT_POST, 'company', FILTER_SANITIZE_STRING);
+        $client_to=filter_input(INPUT_POST, 'client_to', FILTER_SANITIZE_STRING);
+        $client_address=filter_input(INPUT_POST, 'client_address', FILTER_SANITIZE_STRING);
+        $date_due=filter_input(INPUT_POST, 'date_due', FILTER_SANITIZE_STRING);
+        $date_due=date("Y-m-d", strtotime($date_due));
+        echo $date_due;
+        $observations=filter_input(INPUT_POST, 'observations', FILTER_SANITIZE_STRING);
+        $subtotal=filter_input(INPUT_POST, 'subtotal', FILTER_SANITIZE_STRING);
+        $tax=filter_input(INPUT_POST, 'tax', FILTER_SANITIZE_STRING);
+        $taxAmount=$tax/100*$subtotal;
+        $total=$subtotal+$taxAmount;
         date_default_timezone_set('America/New_York');
-        $date=date("m/d/y");
-
-        $invoice_header=new invoice_header($this->adapter);
+        $date=date("Y-m-d");
 
         //saving header data
-        $invoice_header->setCompany($companyId); 
-        $invoice_header->setClient_to($customerTo); 
-        $invoice_header->setClient_address($customerAddress);
-        $invoice_header->setDate_due($customerPaymetDate);
-        $invoice_header->setObservations($invoiceObservations); 
-        $invoice_header->setSubtotal($invoiceSubtotal);  
-        $invoice_header->setTax($invoiceTax);    
-        $invoice_header->setTaxAmount($taxAmount); 
-        $invoice_header->setTotal($totalAmount);  
-        $invoice_header->setDate($date);  
-        $invoice_header->setUser($_SESSION['id']); 
+        $invoice=new invoice_header($this->adapter);
+        $invoice->setId($id); 
+        $invoice->setCompany($company); 
+        $invoice->setClient_to($client_to); 
+        $invoice->setClient_address($client_address);
+        $invoice->setDate_due($date_due);
+        $invoice->setObservations($observations); 
+        $invoice->setSubtotal($subtotal);  
+        $invoice->setTax($tax);    
+        $invoice->setTaxAmount($taxAmount); 
+        $invoice->setTotal($total);  
+        $invoice->setDateInvoice($date);  
+        $invoice->setUser($_SESSION['id']); 
+        $invoice->save();
 
-        $invoice_header->save();
+        //saving body data
+        $tableItems=json_decode(stripslashes($_POST['tableItems']));
+        //$this->redirect("document", "index");
       
-        
-        //echo $companyId.'-'.$customerTo.'-'.$customerPaymetDate.'-'.$invoiceObservations.'-'.$invoiceSubtotal.'-'.$invoiceTax.'-'.$taxAmount.'-'.$totalAmount;
-        //var_dump($tableItems);
-        //invoices();
-
     }
      
        

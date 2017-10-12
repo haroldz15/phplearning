@@ -20,7 +20,9 @@ class baseIdentity{
      
 
     public function getAll(){
-        if( $stmt=$this->db()->prepare("SELECT * FROM $this->table")){
+        $status=1;
+        if( $stmt=$this->db()->prepare("SELECT * FROM $this->table WHERE status=?")){
+            $stmt->bind_param('i',$status);
             $stmt->execute();
             $stmt=$stmt->get_result();
             $data=array();

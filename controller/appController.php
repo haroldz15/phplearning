@@ -27,14 +27,7 @@ class appController extends baseController{
     }
 
     public function invoices(){
-        /*$company=new company($this->adapter);
-        $company=$company->getAll();
-        $this->view("index",array(
-            "viewDashboard"=>'invoice',
-            "allOptions"=>$this->allOptions,
-            "company"=>$company
-        ));*/
-        $this->redirect("document", "invoices");
+        $this->redirect("document", "index");
     }
 /*
     public function newInvoice(){

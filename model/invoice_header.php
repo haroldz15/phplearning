@@ -10,7 +10,7 @@ class invoice_header extends baseIdentity{
     private $tax;
     private $taxAmount;
     private $total;
-    private $date;
+    private $dateInvoice;
     private $user;
     private $status;
 
@@ -101,12 +101,12 @@ class invoice_header extends baseIdentity{
         $this->total = $total;
     }   
 
-    public function getDate() {
-        return $this->date;
+    public function getDateInvoice() {
+        return $this->dateInvoice;
     }
  
-    public function setDate($date) {
-        $this->date = $date;
+    public function setDateInvoice($dateInvoice) {
+        $this->dateInvoice = $dateInvoice;
     }
 
     public function getUser() {
@@ -126,27 +126,32 @@ class invoice_header extends baseIdentity{
     }
 
     public function save(){
-        echo "save";
-        if ($insert_stmt =$this->db()->prepare("INSERT INTO `invoice_header` (company,client_to,client_address,date_due,observations,subtotal,tax,taxAmount,total,date,user,status) VALUES (?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, '1')")) {
+        if ($insert_stmt =$this->db()->prepare("
+            INSERT INTO `invoice_header` (id,company,client_to,client_address,date_due,observations,subtotal,tax,taxAmount,total,dateInvoice,user,status) 
+            VALUES (?,?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, '1') 
+            ON DUPLICATE KEY UPDATE
+            company = VALUES(company),
+            client_to = VALUES(client_to),
+            client_address = VALUES(client_address),
+            date_due = VALUES(date_due),
+            observations = VALUES(observations),
+            subtotal = VALUES(subtotal),
+            tax = VALUES(tax),
+            taxAmount = VALUES(taxAmount),
+            total = VALUES(total),
+            user=VALUES(user),
+            status=VALUES(status)")) {
 
-            $insert_stmt->bind_param('issisddddii', $this->company,$this->client_to,$this->client_address,$this->date_due,$this->observations,$this->subtotal,$this->tax,$this->taxAmount,$this->total,$this->date,$this->user);
-      
+            $insert_stmt->bind_param('iissssddddsi',$this->id,$this->company,$this->client_to,$this->client_address,$this->date_due,$this->observations,$this->subtotal,$this->tax,$this->taxAmount,$this->total,$this->dateInvoice,$this->user);    
             if (! $insert_stmt->execute()) {
-                var_dump($insert_stmt);
                 return false;
-
             }else{
-                echo "string1";
+                $this->id =$this->db()->insert_id;
                 return true;
-
             }
-            echo "string";
         }else{
             return false;
-        }
-        
-        
+        }              
     }
-
 }
 ?>

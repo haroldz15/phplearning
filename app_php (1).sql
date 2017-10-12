@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2017 at 11:01 PM
+-- Generation Time: Oct 12, 2017 at 11:01 PM
 -- Server version: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -27,23 +27,24 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `companies` (
-  `id` int(11) NOT NULL,
+  `id` int(2) NOT NULL,
   `name` varchar(50) NOT NULL,
   `address` varchar(150) NOT NULL,
   `city` varchar(50) NOT NULL,
   `state` varchar(3) NOT NULL,
   `zipcode` varchar(7) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `phones` varchar(50) NOT NULL
+  `phones` varchar(50) NOT NULL,
+  `status` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `companies`
 --
 
-INSERT INTO `companies` (`id`, `name`, `address`, `city`, `state`, `zipcode`, `email`, `phones`) VALUES
-(1, 'Wong Painting & Remodeling ', '8635 Centerton Lane', 'Manassas', 'VA', '20111', 'wongpainting@gmail.com', '703-926-5657 / 571-275-3541'),
-(2, 'Fairfax Perfect Maids', '11441 Olde Kend Rd', 'Centreville', 'Va', '20120', 'fairfaxperfectmaids@gmail.com', '571-275-3541');
+INSERT INTO `companies` (`id`, `name`, `address`, `city`, `state`, `zipcode`, `email`, `phones`, `status`) VALUES
+(1, 'Wong Painting & Remodeling ', '8635 Centerton Lane', 'Manassas', 'VA', '20111', 'wongpainting@gmail.com', '703-926-5657 / 571-275-3541', 1),
+(2, 'Fairfax Perfect Maids', '11441 Olde Kend Rd', 'Centreville', 'Va', '20120', 'fairfaxperfectmaids@gmail.com', '571-275-3541', 1);
 
 -- --------------------------------------------------------
 
@@ -52,11 +53,13 @@ INSERT INTO `companies` (`id`, `name`, `address`, `city`, `state`, `zipcode`, `e
 --
 
 CREATE TABLE `document_body` (
-  `id` int(11) NOT NULL,
+  `id` int(6) UNSIGNED ZEROFILL NOT NULL,
+  `orderId` int(3) NOT NULL,
   `quantity` int(5) NOT NULL,
   `product` varchar(150) NOT NULL,
   `description` text NOT NULL,
-  `status` int(11) NOT NULL
+  `price` decimal(19,2) NOT NULL,
+  `status` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -66,27 +69,27 @@ CREATE TABLE `document_body` (
 --
 
 CREATE TABLE `invoice_header` (
-  `id` int(11) NOT NULL,
-  `company` int(2) NOT NULL,
-  `client_to` varchar(100) NOT NULL,
-  `client_address` text NOT NULL,
-  `date_due` date NOT NULL,
-  `observations` text NOT NULL,
-  `subtotal` decimal(19,4) NOT NULL,
-  `tax` decimal(19,4) NOT NULL,
-  `taxAmount` decimal(19,4) NOT NULL,
-  `total` decimal(19,4) NOT NULL,
-  `date` date NOT NULL,
+  `id` int(6) UNSIGNED ZEROFILL NOT NULL,
+  `company` int(2) DEFAULT NULL,
+  `client_to` varchar(100) DEFAULT NULL,
+  `client_address` text,
+  `date_due` date DEFAULT NULL,
+  `observations` text,
+  `subtotal` decimal(19,2) DEFAULT NULL,
+  `tax` decimal(19,2) DEFAULT NULL,
+  `taxAmount` decimal(19,2) DEFAULT NULL,
+  `total` decimal(19,2) DEFAULT NULL,
+  `dateInvoice` date DEFAULT NULL,
   `user` int(11) NOT NULL,
-  `status` int(1) NOT NULL
+  `status` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `invoice_header`
 --
 
-INSERT INTO `invoice_header` (`id`, `company`, `client_to`, `client_address`, `date_due`, `observations`, `subtotal`, `tax`, `taxAmount`, `total`, `date`, `user`, `status`) VALUES
-(1, 1, 'a', 'a', '0000-00-00', 'text  ', '10.0000', '10.0000', '1.0000', '11.0000', '0000-00-00', 1, 1);
+INSERT INTO `invoice_header` (`id`, `company`, `client_to`, `client_address`, `date_due`, `observations`, `subtotal`, `tax`, `taxAmount`, `total`, `dateInvoice`, `user`, `status`) VALUES
+(000001, 1, 'Green Donald', '', '2017-10-24', '                                        ', '0.00', '0.00', '0.00', '0.00', '2017-10-12', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -96,17 +99,9 @@ INSERT INTO `invoice_header` (`id`, `company`, `client_to`, `client_address`, `d
 
 CREATE TABLE `login_attempts` (
   `id` int(11) NOT NULL,
-  `time` varchar(30) NOT NULL
+  `time` varchar(30) NOT NULL,
+  `status` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `login_attempts`
---
-
-INSERT INTO `login_attempts` (`id`, `time`) VALUES
-(3, '1506392847'),
-(1, '1506394123'),
-(1, '1506394716');
 
 -- --------------------------------------------------------
 
@@ -145,15 +140,16 @@ CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
   `password` char(128) NOT NULL,
   `flags` varchar(250) NOT NULL,
-  `salt` char(128) NOT NULL
+  `salt` char(128) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `name`, `lastname`, `email`, `password`, `flags`, `salt`) VALUES
-(1, 'Harold', 'Harold', 'Zuniga', 'haroldzuniga15@gmail.com', '5ebfbb0ad9c19888896f969fa1fb38125fb471ce4202062095f2dfbfd1c59bfcc60d6c8ae982d765ec4e5e6056a7dda9c00a65e287fa528f98eac6e87f18939b', 'DEBUG', 'ba9c19e1668129ab3913ee834f9bfc159bada7d64fd18ddd7b801b6ee3f7b31441a34da1e80a02be1633164268d9a8755141f52102b892f0ebd9d9a3ed9ebe01');
+INSERT INTO `users` (`id`, `username`, `name`, `lastname`, `email`, `password`, `flags`, `salt`, `status`) VALUES
+(1, 'Harold', 'Harold', 'Zuniga', 'haroldzuniga15@gmail.com', '5ebfbb0ad9c19888896f969fa1fb38125fb471ce4202062095f2dfbfd1c59bfcc60d6c8ae982d765ec4e5e6056a7dda9c00a65e287fa528f98eac6e87f18939b', 'DEBUG', 'ba9c19e1668129ab3913ee834f9bfc159bada7d64fd18ddd7b801b6ee3f7b31441a34da1e80a02be1633164268d9a8755141f52102b892f0ebd9d9a3ed9ebe01', 1);
 
 --
 -- Indexes for dumped tables
@@ -169,6 +165,7 @@ ALTER TABLE `companies`
 -- Indexes for table `document_body`
 --
 ALTER TABLE `document_body`
+  ADD PRIMARY KEY (`id`,`orderId`),
   ADD KEY `id` (`id`);
 
 --
@@ -205,12 +202,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `invoice_header`
 --
 ALTER TABLE `invoice_header`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(6) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `options`
 --
@@ -229,20 +226,20 @@ ALTER TABLE `users`
 -- Constraints for table `document_body`
 --
 ALTER TABLE `document_body`
-  ADD CONSTRAINT `document_body_ibfk_1` FOREIGN KEY (`id`) REFERENCES `invoice_header` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `document_body_ibfk_1` FOREIGN KEY (`id`) REFERENCES `invoice_header` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `invoice_header`
 --
 ALTER TABLE `invoice_header`
-  ADD CONSTRAINT `invoice_header_ibfk_1` FOREIGN KEY (`company`) REFERENCES `companies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `invoice_header_ibfk_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `invoice_header_ibfk_1` FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `invoice_header_ibfk_2` FOREIGN KEY (`company`) REFERENCES `companies` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 --
--- Constraints for table `users`
+-- Constraints for table `login_attempts`
 --
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id`) REFERENCES `login_attempts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `login_attempts`
+  ADD CONSTRAINT `login_attempts_ibfk_1` FOREIGN KEY (`id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
