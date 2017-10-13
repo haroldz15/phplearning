@@ -24,17 +24,18 @@
               <h3 class="box-title">Template</h3>
             </div>
             <div class="box-body">
-              <select class="form-control" name="selectTemplate">
+              <select class="form-control" name="selectTemplate" required>
                 <option disabled selected></option>
                 <?php foreach ($company as $key => $value) {
                  echo '<option value="'.$value['id'].'">'.$value['name'].'</option>';
                 } ?>
               </select>
-               <br><input type="submit" name="" value="New Invoice" class="btn btn-success btn-block">
+               <br><input type="submit" name="" value="Create" class="btn btn-success btn-block">
             </div>
             <!-- /.box-body -->
           </div>
-          <!-- /.box -->           
+          <!-- /.box -->
+          <input type="hidden" name="documentType" value="<?php echo  $documentType ?>">           
           <?php 
           echo $helper->parameters("document","create") ?>
           </form>
@@ -58,18 +59,17 @@
                   <tbody>
 
                   <?php 
-                    foreach ($invoices as $key => $invoice) {
+                    foreach ($documents as $key => $document) {
                      ?>
                      <form action="<?php echo $_SERVER['PHP_SELF']?>" method="POST">
                      <?php  
                       echo '<tr>
-                      <td class="mailbox-name"><a href="read-mail.html">'.$invoice["client_to"].'</a></td>
-                      <td class="mailbox-subject">'.$invoice["company"].'</td>
-                      <td class="mailbox-date">'.$invoice["date_due"].'</td>
-                      <td class="mailbox-date">'.$invoice["dateInvoice"].'</td>
-                      <td>'.$helper->linkCustom("document","edit",$invoice["id"],"Edit").'</td>
+                      <td class="mailbox-name"><a href="read-mail.html">'.$document["client_to"].'</a></td>
+                      <td class="mailbox-subject">'.$document["company"].'</td>
+                      <td class="mailbox-date">'.$document["date_due"].'</td>
+                      <td class="mailbox-date">'.$document["dateDocument"].'</td>
+                      <td>'.$helper->linkCustom("document","edit",$documentType,$document["id"],"Edit").'</td>
                       </tr>';
-                      //echo $helper->parameters("document","editInvoice") 
                       ?>
                       </form>
                       <?php 

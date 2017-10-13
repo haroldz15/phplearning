@@ -33,18 +33,7 @@ class usersController extends baseController{
     }
      
 
-    public function login(){
-         
-        //creates a user object
-        // $user=new user($this->adapter);
-         
-         // get the array of users with the method get all 
-        //Conseguimos todos los usuarios
-        //$allusers=$user->getAll();
-        
-        //Cargamos la vista index y le pasamos valores
-        $this->view("login",'');
-    }
+
      
     public function create(){
         if(isset($_POST["name"])){
@@ -70,12 +59,7 @@ class usersController extends baseController{
         $this->redirect();
     }
      
-     
-    public function hello(){
-        $users=new usersModel($this->adapter);
-        $usu=$users->getAUser();
-        var_dump($usu);
-    }
+
  
 }
 ?>

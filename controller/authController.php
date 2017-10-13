@@ -8,12 +8,6 @@ class authController extends baseController{
         $this->defaultAction="login";
     }
      
-
-     //this action is called so it creates a user that is being refered in the base controller wich load all the models
-    public function index(){
-    }
-     
-
     public function login(){
         $method=$_SERVER['REQUEST_METHOD'];
 
@@ -34,27 +28,19 @@ class authController extends baseController{
     }
      
     public function logout(){
-        if(isset($_POST["name"])){         
-            //Creamos un usuario
-            $user=new user($this->adapter);
-            $user->setName($_POST["name"]);
-            $user->setLastname($_POST["lastname"]);
-            $user->setEmail($_POST["email"]);
-            $user->setPassword(sha1($_POST["password"]));
-            $save=$user->save();
-        }
-        $this->redirect("users", "index");
+        $_SESSION=array();
+
+        $params=session_get_cookie_params();
+
+        setcookie(session_name(),'',time()-42000,
+                $params["path"], 
+                $params["domain"], 
+                $params["secure"], 
+                $params["httponly"]);
+
+        session_destroy();
+        $this->redirect("auth", "login");
     }
-     
-    public function checkState(){
-        if(isset($_GET["id"])){ 
-            $id=(int)$_GET["id"];
-             
-            $user=new user($this->adapter);
-            $user->deleteById($id); 
-        }
-        $this->redirect();
-    }
-         
+           
 }
 ?>

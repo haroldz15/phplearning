@@ -23,19 +23,45 @@ class documentController extends baseController{
 
      //this action is called so it creates a user that is being refered in the base controller wich load all the models
     public function index(){
+        echo "index";
+    }
+
+    public function invoices(){
         $company=new company($this->adapter);
         $company=$company->getAll();
         $invoices=new documentsModel($this->adapter);
         $invoices=$invoices->getInvoices();
         $invoices=($invoices==false ? array():$invoices);
+        $documentType="invoice";
         //var_dump($invoice_header);
         $this->view("index",array(
-            "viewDashboard"=>'invoices',
+            "viewDashboard"=>'documents',
             "allOptions"=>$this->allOptions,
             "company"=>$company,
             "title"=>"Invoices",
-            "invoices"=>$invoices
+            "documentType"=>$documentType,
+            "documents"=>$invoices
         ));
+    }
+
+    public function estimates(){
+
+        $company=new company($this->adapter);
+        $company=$company->getAll();
+        $estimates=new documentsModel($this->adapter);
+        $estimates=$estimates->getEstimates();
+        $estimates=($estimates==false ? array():$estimates);
+        $documentType="estimate";
+
+        $this->view("index",array(
+            "viewDashboard"=>'documents',
+            "allOptions"=>$this->allOptions,
+            "company"=>$company,
+            "title"=>"Estimates",
+            "documentType"=>$documentType,
+            "documents"=>$estimates
+        ));
+
     }
 
     public function delete () {
@@ -47,55 +73,95 @@ class documentController extends baseController{
     }
 
     public function create(){
-        //Get the company info for the template   
+        $documentType=$_POST['documentType'];
         $companyId=$_POST['selectTemplate'];  
         $company=new company($this->adapter);
         $company=$company->getById($companyId);
-
-        //creating a blank invoice header
-        $invoice=new invoice_header($this->adapter);
-        $invoice->setCompany($companyId);
-        $invoice->setUser($_SESSION['id']);
         date_default_timezone_set('America/New_York');
         $date=date("Y-m-d");
-        $invoice->setDateInvoice($date); 
-        $invoice->save();
-        $invoice_id=$invoice->getId();
-        $invoice=$invoice->getById($invoice_id);
-        //
-        $this->view("index",array(
-            "viewDashboard"=>'invoice',
-            "allOptions"=>$this->allOptions,
-            "company"=>$company,
-            "invoice_id"=>$invoice_id,
-            "invoice"=>$invoice,
-            "title"=>"New Invoice"
-        ));
+ 
+        switch ($documentType) {
+            case 'invoice':
+                //creating a blank invoice header
+                $invoice=new invoice_header($this->adapter);
+                $invoice->setCompany($companyId);
+                $invoice->setUser($_SESSION['id']);
+                $invoice->setDateDocument($date); 
+                $invoice->save();
+                $invoice_id=$invoice->getId();
+                $invoice=$invoice->getById($invoice_id);
+                //
+                $this->view("index",array(
+                    "viewDashboard"=>'document',
+                    "allOptions"=>$this->allOptions,
+                    "company"=>$company,
+                    "document_id"=>$invoice_id,
+                    "document"=>$invoice,
+                    "title"=>"New Invoice"
+                ));
+
+                break;
+            case 'estimate':
+                //creating a blank estimate header
+                $estimate=new estimate_header($this->adapter);
+                $estimate->setCompany($companyId);
+                $estimate->setUser($_SESSION['id']);
+                $estimate->setDateDocument($date); 
+                $estimate->save();
+                $estimate_id=$estimate->getId();
+                $estimate=$estimate->getById($estimate_id);
+                //estimate
+
+                $this->view("index",array(
+                    "viewDashboard"=>'document',
+                    "allOptions"=>$this->allOptions,
+                    "company"=>$company,
+                    "document_id"=>$estimate_id,
+                    "document"=>$estimate,
+                    "title"=>"New Estimate"
+                ));
+                break;            
+            default:
+                # code...
+                break;
+        }
+
+
     }
 
     public function edit(){
-        //get the id for the url
-        $invoice_id=(isset($_GET["i"])?$_GET["i"]:"");
+        $documentType=(isset($_GET["i"])?$_GET["i"]:"");
+        $document_id=(isset($_GET["i2"])?$_GET["i2"]:"");
 
-        //creating the invoice object
-        $invoice=new invoice_header($this->adapter);
-        $invoice=$invoice->getById($invoice_id);
+        switch ($documentType) {
+            case 'invoice':
+                $document=new invoice_header($this->adapter);
+                break;
+            case 'estimate':
+                $document=new estimate_header($this->adapter);
+                break;            
+            default:
+                # code...
+                break;
+        }
+        $document=$document->getById($document_id);
 
         //creating the company object
         $company=new company($this->adapter);
-        $company=$company->getById($invoice["company"]);
+        $company=$company->getById($document["company"]);
 
         //getting the body
         $document_body=new documentsModel($this->adapter);
-        $document_body=$document_body->getDocumentBody($invoice_id);
+        $document_body=$document_body->getDocumentBody($document_id,$documentType.'_body');
         $this->view("index",array(
-            "viewDashboard"=>'invoice',
+            "viewDashboard"=>'document',
             "allOptions"=>$this->allOptions,
             "company"=>$company,
-            "invoice_id"=>$invoice_id,
-            "invoice"=>$invoice,
+            "documentType"=>$documentType,
+            "document_id"=>$document_id,
+            "document"=>$document,
             "document_body"=>$document_body,
-            "title"=>"Edit Invoice"
+            "title"=>"Edit"
         ));    
     }
 
@@ -115,6 +181,7 @@ class documentController extends baseController{
         $tax=filter_input(INPUT_POST, 'tax', FILTER_SANITIZE_STRING);
         $taxAmount=$tax/100*$subtotal;
         $total=$subtotal+$taxAmount;
+
         date_default_timezone_set('America/New_York');
         $date=date("Y-m-d");
 
@@ -130,7 +197,7 @@ class documentController extends baseController{
         $invoice->setTax($tax);    
         $invoice->setTaxAmount($taxAmount); 
         $invoice->setTotal($total);  
-        $invoice->setDateInvoice($date);  
+        $invoice->setDateDocument($date);  
         $invoice->setUser($_SESSION['id']); 
         $invoice->save();
         //saving body data
@@ -139,7 +206,7 @@ class documentController extends baseController{
         $invoices=$invoices->saveDocumentBody($tableItems);
         //var_dump($tableItems);
 
-        $this->redirect("document", "index");
+        $this->redirect("document", "invoices");
        
     }
      

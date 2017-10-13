@@ -11,7 +11,7 @@ require_once 'dist/includes/header.php';
           <img src="<?php echo baseReference?>dist/img/users/<?php echo $_SESSION['id']?>.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p><?php echo $_SESSION['username']?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>

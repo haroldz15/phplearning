@@ -17,7 +17,6 @@ class appController extends baseController{
         $this->allOptions=$options->getOptions($flags);   
     }
      
-
      //this action is called so it creates a user that is being refered in the base controller wich load all the models
     public function index(){
         $this->view("index",array(
@@ -27,19 +26,11 @@ class appController extends baseController{
     }
 
     public function invoices(){
-        $this->redirect("document", "index");
+        $this->redirect("document", "invoices");
     }
-/*
-    public function newInvoice(){
-        $company=new company($this->adapter);
-        $company=$company->getAll();
-        $this->view("index",array(
-            "viewDashboard"=>'newInvoice',
-            "allOptions"=>$this->allOptions,
-            "company"=>$company
-        ));
-    }*/
-     
-       
+ 
+    public function estimates(){
+        $this->redirect("document", "estimates");
+    }        
 }
 ?>

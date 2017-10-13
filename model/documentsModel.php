@@ -9,35 +9,65 @@ class documentsModel extends baseModel{
      
 
     public function getInvoices(){
-    $error_msg="";
-    $prep_stmt = "SELECT a.id,b.name,a.client_to,a.dateInvoice,a.date_due FROM `invoice_header` as a ,`companies` as b where a.company=b.id and a.status='1'";
-    $stmt = $this->db()->prepare($prep_stmt);
-    if ($stmt) {
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($id,$company,$client_to,$dateInvoice,$date_due);
-        $invoices = array();
-            while ($stmt->fetch()) {
-                $invoices[]=array(
-                "id"=>$id,
-                "company"=>$company,
-                "client_to"=>$client_to,
-                "dateInvoice"=>$dateInvoice,
-                "date_due"=>$date_due
-                );            
-            }
-            $stmt->close();
+        $error_msg="";
+        $prep_stmt = "SELECT a.id,b.name,a.client_to,a.dateDocument,a.date_due FROM `invoice_header` as a ,`companies` as b where a.company=b.id and a.status='1'";
+        $stmt = $this->db()->prepare($prep_stmt);
+        if ($stmt) {
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($id,$company,$client_to,$dateDocument,$date_due);
+            $invoices = array();
+                while ($stmt->fetch()) {
+                    $invoices[]=array(
+                    "id"=>$id,
+                    "company"=>$company,
+                    "client_to"=>$client_to,
+                    "dateDocument"=>$dateDocument,
+                    "date_due"=>$date_due
+                    );            
+                }
+                $stmt->close();
 
-        if (empty($invoices)) {
-            return false;
-        }else{
-            return $invoices;   
-        }           
-    } else {
-        $error_msg .= 'Database error';
-        $stmt->close();
+            if (empty($invoices)) {
+                return false;
+            }else{
+                return $invoices;   
+            }           
+        } else {
+            $error_msg .= 'Database error';
+            $stmt->close();
+        }
     }
 
+    public function getEstimates(){
+        $error_msg="";
+        $prep_stmt = "SELECT a.id,b.name,a.client_to,a.dateDocument,a.date_due FROM `estimate_header` as a ,`companies` as b where a.company=b.id and a.status='1'";
+        $stmt = $this->db()->prepare($prep_stmt);
+        if ($stmt) {
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($id,$company,$client_to,$dateDocument,$date_due);
+            $invoices = array();
+                while ($stmt->fetch()) {
+                    $invoices[]=array(
+                    "id"=>$id,
+                    "company"=>$company,
+                    "client_to"=>$client_to,
+                    "dateDocument"=>$dateDocument,
+                    "date_due"=>$date_due
+                    );            
+                }
+                $stmt->close();
+
+            if (empty($invoices)) {
+                return false;
+            }else{
+                return $invoices;   
+            }           
+        } else {
+            $error_msg .= 'Database error';
+            $stmt->close();
+        }
     }
 
     function saveDocumentBody($arrayBody){
@@ -68,9 +98,10 @@ class documentsModel extends baseModel{
          }
     }
 
-    public function getDocumentBody($id){
+    public function getDocumentBody($id,$table){
     $error_msg="";
-    $prep_stmt = "SELECT id,orderId,quantity,description FROM `document_body` where id=?";
+    echo $table;
+    $prep_stmt = "SELECT id,orderId,quantity,description FROM `$table` where id=?";
     $stmt = $this->db()->prepare($prep_stmt);
     if ($stmt) {
         $stmt->bind_param('i',$id);
@@ -99,6 +130,7 @@ class documentsModel extends baseModel{
     }
 
     }
+
 
 
     function deleteItem($id,$orderId){

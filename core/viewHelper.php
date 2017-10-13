@@ -7,14 +7,13 @@ class viewHelper{
         return $inputStream;
     }
 
-      public function linkCustom($controller=defaultController,$action=defaultAction,$i=1,$text){
-        $link='<a href="'.baseReference.$controller.'/'.$action.'/'.$i.'" class="btn btn-primary">'.$text.'</a>';
+      public function linkCustom($controller=defaultController,$action=defaultAction,$type,$i=1,$text){
+        $link='<a href="'.baseReference.$controller.'/'.$action.'/'.$type.'/'.$i.'/" class="btn btn-primary">'.$text.'</a>';
         return $link;
     }
 
      public function definedVar($element,$parameter){
-        //var_dump($invoice);
-       echo  (isset($element) ? $element[$parameter]: "");
+        echo  (isset($element) ? $element[$parameter]: "");
      }
      
 }

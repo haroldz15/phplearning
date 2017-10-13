@@ -1,5 +1,5 @@
 <?php
-class invoice_header extends baseIdentity{
+class estimate_header extends baseIdentity{
     private $id;
     private $company;
     private $client_to;
@@ -17,7 +17,7 @@ class invoice_header extends baseIdentity{
 
      
     public function __construct($adapter) {
-        $table="invoice_header";
+        $table="estimate_header";
         parent::__construct($table,$adapter);
     }
      
@@ -127,7 +127,7 @@ class invoice_header extends baseIdentity{
 
     public function save(){
         if ($insert_stmt =$this->db()->prepare("
-            INSERT INTO `invoice_header` (id,company,client_to,client_address,date_due,observations,subtotal,tax,taxAmount,total,dateDocument,user,status) 
+            INSERT INTO `estimate_header` (id,company,client_to,client_address,date_due,observations,subtotal,tax,taxAmount,total,dateDocument,user,status) 
             VALUES (?,?, ?, ?, ?,?, ?, ?, ?,?, ?, ?, '1') 
             ON DUPLICATE KEY UPDATE
             company = VALUES(company),

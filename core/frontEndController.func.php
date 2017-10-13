@@ -30,7 +30,6 @@ function launchAction($controllerObj,$action){
 //Executes Third 
 function loadAction($controllerObj,$actionParam){
     //when the action is loaded means that the action will trigger a function with the sane name in the controller.php file
-    //echo $actionParam;
     $action=$actionParam;
     $controllerObj->$action();
 }

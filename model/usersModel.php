@@ -63,12 +63,5 @@ class usersModel extends baseModel{
             return false;
         }
     }
-
-    public function getOptions(){
-    /*$flags=$_SESSION['flags'];
-    $options=new optionsModel($this->adapter);
-    $userOptions=$options->getOptions($flags);
-    return $userOptions;*/
-    }
 }
 ?>
