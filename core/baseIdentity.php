@@ -76,8 +76,21 @@ class baseIdentity{
     }
   
     public function deleteById($id){
-        $query=$this->db->query("DELETE FROM $this->table WHERE id=$id"); 
+        /*$query=$this->db->query("DELETE FROM $this->table WHERE id=$id"); 
         return $query;
+        if( $stmt=$this->db()->prepare("DELETE * from $this->table where id=? and  Limit 1")){
+            $stmt->bind_param('s',$value);
+            $stmt->execute();
+            $stmt=$stmt->get_result();
+            if($stmt->num_rows==1){
+                $row = $stmt->fetch_assoc();
+                return $row;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }*/
     }
      
     public function deleteBy($column,$value){

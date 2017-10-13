@@ -1,4 +1,5 @@
 <?php
+
 //Global configutarion
 require_once 'config/global.php';
  

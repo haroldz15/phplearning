@@ -36,12 +36,12 @@
         </div>
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">          
-          <div class="col-sm-9">To<input type="text" class="form-control" style=" resize: none;" name='client_to' value="<?php $helper->definedVar($invoice,'client_to')?>"> Address:<textarea class="form-control" rows="3" style=" resize: none;" name="client_address"><?php $helper->definedVar($invoice,'client_address')?></textarea></div>
+          <div class="col-sm-9">To<input type="text" class="form-control" style=" resize: none;" name='client_to' value="<?php $helper->definedVar($invoice,'client_to')?>" > Address:<textarea class="form-control" rows="3" style=" resize: none;" name="client_address"><?php $helper->definedVar($invoice,'client_address')?></textarea></div>
         </div>
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
           <b>Invoice #<?php echo sprintf('%06d',$invoice_id);?></b><br>
-          <input type="hidden" name="id" value='<?php echo $invoice_id?>'>
+          <input type="hidden" name="id" id="id" value='<?php echo $invoice_id?>'>
           <br>
           <b>Payment Due:</b><input class="form-control" type="date"  style="width: unset" name="date_due" value="<?php $helper->definedVar($invoice,'date_due')?>"><br>
         </div>
@@ -65,16 +65,33 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td style="width: 10%"><input type="number" class="form-control text-center"></td>
+              <?php if (isset($document_body) && $document_body!= false) {
+                foreach ($document_body as $key => $item) {
+            echo '<tr>
+                    <td style="width: 10%"><input type="number" class="form-control text-center" data-id="'.$item['orderId'].'-db"" value="'.$item['quantity'].'" ></td>
+                    <td style="width: 70%"><textarea class="form-control"  onkeyup="textAreaAdjust(this)" style="overflow:hidden;resize: none;" rows="1">'.$item['description'].'</textarea></td>
+                    <td style="width: 20%"  class="text-center">
+                      <button type="button" class="btn btn-danger" onclick="deleteRow(this)">
+                        <span class="fa fa-remove"></span>
+                      </button>
+                    </td>
+                  </tr>';
+                }
+              } else { ?> 
+             <tr>
+              <td style="width: 10%"><input type="number" class="form-control text-center" data-id="1"></td>
               <td style="width: 70%"><textarea class="form-control"  onkeyup="textAreaAdjust(this)" style="overflow:hidden;resize: none;" rows="1"></textarea></td>
               <td style="width: 20%"  class="text-center">
                 <button type="button" class="btn btn-danger" onclick="deleteRow(this)">
                   <span class="fa fa-remove"></span>
                 </button>
               </td>
-            </tr>
+            </tr>             
+              <?php
+              } ?>
+
             </tbody>
+
           </table>
         </div>
         <!-- /.col -->

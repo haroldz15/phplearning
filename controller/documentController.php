@@ -38,6 +38,14 @@ class documentController extends baseController{
         ));
     }
 
+    public function delete () {
+        $invoice_id=(isset($_GET["i"])?$_GET["i"]:"");
+        $orderId=(isset($_GET["i2"])?$_GET["i2"]:"");
+        $invoices=new documentsModel($this->adapter);
+        $invoices=$invoices->deleteItem($invoice_id,$orderId);
+        echo $invoices;
+    }
+
     public function create(){
         //Get the company info for the template   
         $companyId=$_POST['selectTemplate'];  
@@ -77,12 +85,16 @@ class documentController extends baseController{
         $company=new company($this->adapter);
         $company=$company->getById($invoice["company"]);
 
+        //getting the body
+        $document_body=new documentsModel($this->adapter);
+        $document_body=$document_body->getDocumentBody($invoice_id);
         $this->view("index",array(
             "viewDashboard"=>'invoice',
             "allOptions"=>$this->allOptions,
             "company"=>$company,
             "invoice_id"=>$invoice_id,
             "invoice"=>$invoice,
+            "document_body"=>$document_body,
             "title"=>"Edit Invoice"
         ));    
     }
@@ -97,7 +109,7 @@ class documentController extends baseController{
         $client_address=filter_input(INPUT_POST, 'client_address', FILTER_SANITIZE_STRING);
         $date_due=filter_input(INPUT_POST, 'date_due', FILTER_SANITIZE_STRING);
         $date_due=date("Y-m-d", strtotime($date_due));
-        echo $date_due;
+        //echo $date_due;
         $observations=filter_input(INPUT_POST, 'observations', FILTER_SANITIZE_STRING);
         $subtotal=filter_input(INPUT_POST, 'subtotal', FILTER_SANITIZE_STRING);
         $tax=filter_input(INPUT_POST, 'tax', FILTER_SANITIZE_STRING);
@@ -121,11 +133,14 @@ class documentController extends baseController{
         $invoice->setDateInvoice($date);  
         $invoice->setUser($_SESSION['id']); 
         $invoice->save();
-
         //saving body data
         $tableItems=json_decode(stripslashes($_POST['tableItems']));
-        //$this->redirect("document", "index");
-      
+        $invoices=new documentsModel($this->adapter);
+        $invoices=$invoices->saveDocumentBody($tableItems);
+        //var_dump($tableItems);
+
+        $this->redirect("document", "index");
+       
     }
      
        
